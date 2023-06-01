@@ -1,129 +1,155 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import City from '../Component/City';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import City from "../Component/City";
+import Time from "./Time";
 
 const Ticket = (props) => {
-    
-    const [pN, setpN] = useState(true);
+  const [pN, setpN] = useState(true);
+  const [ticketCount, setTicketCount] = useState(0);
+  const $modalStartFinish = useRef();
+  const $modalTicketCount = useRef();
 
-    const $modal = useRef();
+  useEffect(() => {
+    $modalStartFinish.current = document.querySelector(".modal-start-finish");
+    $modalTicketCount.current = document.querySelector(".modal-ticket-count");
+  }, []);
 
-    useEffect(() => {
-        $modal.current = document.querySelector('.modal');
-    }, [])
+  const handleTicketCount = (value) => {
+    if (value < 0) {
+      value = 0;
+    }
+    setTicketCount(value);
+  };
 
+  const [showTime, setShowTime] = useState(false);
+
+  const handleNext = () => {
+    if (!props.Start || !props.Finish || ticketCount === 0) {
+      alert("출발지, 도착지, 발권 매수를 선택해주세요.");
+      return;
+    }
+
+    setShowTime(true);
+  };
+
+  if (showTime) {
     return (
-
-        <div>
-            <Link to="/">홈버튼</Link>
-
-
-
-            <div>
-                출발 일자 및 도착지 선택
-            </div>
-
-            
-
-
-            <div onClick={() => {$modal.current.style.display = 'block'; setpN(true)}} id= 'StartPointButton'>
-                <div>출발지 선택</div>
-
-                <div style={{textAlign:'right'}}>{props.Start.City}</div>
-            </div>
-
-
-
-
-            <div onClick={() => {$modal.current.style.display = 'block'; setpN(false)}} id= 'StartPointButton'>
-                <div>도착지 선택</div>
-
-                <div style={{textAlign:'right'}}>{props.Finish.City}</div>
-            </div>
-
-
-
-
-            <Link to={'/ticketing/Time'} >다음</Link>
-
-
-
-
-
-
-            {/*모달 창*/}
-            <div className="modal">
-                <div className="modal_body">
-                    <button id='close' onClick={() => {$modal.current.style.display = 'none';}}>X</button>
-                    원하는 {pN ? '출발' : '도착'}지 선택
-
-                    <div>{pN ? props.Start.City : props.Finish.City}</div>
-                    <City cityList = {props.cityList} setStart = {props.setStart} setFinish = {props.setFinish} pN = {pN}/>
-                </div>
-            </div>
-
-
-        </div>
+      <Time
+        start={props.Start}
+        finish={props.Finish}
+        ticketCount={ticketCount}
+      />
     );
+  }
 
+  return (
+    <div>
+      <Link to="/">홈버튼</Link>
+
+      <div>출발 일자 및 도착지 선택</div>
+
+      <div
+        onClick={() => {
+          $modalStartFinish.current.style.display = "block";
+          setpN(true);
+        }}
+        id="StartPointButton"
+      >
+        <div>출발지 선택</div>
+        <div style={{ textAlign: "right" }}>
+          {props.Start ? props.Start.City : ""}
+        </div>
+      </div>
+
+      <div
+        onClick={() => {
+          $modalStartFinish.current.style.display = "block";
+          setpN(false);
+        }}
+        id="StartPointButton"
+      >
+        <div>도착지 선택</div>
+        <div style={{ textAlign: "right" }}>
+          {props.Finish ? props.Finish.City : ""}
+        </div>
+      </div>
+
+      <div
+        onClick={() => {
+          $modalTicketCount.current.style.display = "block";
+        }}
+        id="StartPointButton"
+      >
+        <div>발권 매수 선택</div>
+        <div style={{ textAlign: "right" }}>{ticketCount}</div>
+      </div>
+
+      <button onClick={handleNext}>다음</button>
+
+      {/* 출발지/도착지 선택 모달 */}
+      <div className="modal modal-start-finish">
+        <div className="modal_body">
+          <button
+            id="close"
+            onClick={() => {
+              $modalStartFinish.current.style.display = "none";
+            }}
+          >
+            X
+          </button>
+          원하는 {pN ? "출발" : "도착"}지 선택
+          <div>
+            {pN
+              ? props.Start
+                ? props.Start.City
+                : ""
+              : props.Finish
+              ? props.Finish.City
+              : ""}
+          </div>
+          <City
+            cityList={props.cityList}
+            setStart={props.setStart}
+            setFinish={props.setFinish}
+            pN={pN}
+          />
+        </div>
+      </div>
+
+      {/* 발권 매수 선택 모달 */}
+      <div className="modal modal-ticket-count">
+        <div className="modal_body">
+          <button
+            id="close"
+            onClick={() => {
+              $modalTicketCount.current.style.display = "none";
+            }}
+          >
+            X
+          </button>
+          <div>
+            <p>발권 매수 선택</p>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              value={ticketCount}
+              onChange={(e) => handleTicketCount(e.target.value)}
+            />
+          </div>
+          <button
+            onClick={() => {
+              $modalTicketCount.current.style.display = "none";
+            }}
+          >
+            선택
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Ticket;
 
 
-
-
-
-
-
-    // const [StName, setStName] = useState('선택하지 않음');
-    // const [FnName, setFnName] = useState('선택하지 않음');
-    
-    // 이분 탐색 알고리즘
-    // 현재 폐기
-    // const showCity = useCallback((findnum) => {
-
-    //     //테스트용
-    //     console.log(findnum);
-
-    //     let left = 0;
-    //     let right = cityList.length - 1;
-    //     let now = Math.floor((cityList.length - 1) / 2);
-    //     if(findnum === 0) {
-    //         return '선택하지 않음';
-    //     }
-    //     while(true) {
-    //         if(cityList[now].id === findnum) {
-    //             return cityList[now].City;
-    //         }
-    //         else if(cityList[now].id < findnum) {
-    //             left = now;  
-    //         }
-    //         else {
-    //             right = now;
-    //         }
-
-    //         now = Math.floor((left + right) / 2);
-            
-            
-
-    //         if(cityList[now].id >= findnum && cityList[cityList.length-1].id <= findnum) { // 어떤 것도 없을 시 에러 반환
-    //             return 'error';
-    //         }
-
-    //         if(left === cityList.length -2 && right === cityList.length - 1) { // 제일 마지막 요소 선택 시 무한 루프 방지
-    //             now = right;
-    //         }
-
-    //         //테스트
-    //         console.log('left : ' + left + ' right : ' + right + ' now : ' + (now + 1));
-    //     }
-    // }, [cityList])
-
-    // useEffect(() => {
-    //     setStName(showCity(Start));
-    // }, [Start, showCity])
-
-    // useEffect(() => {
-    //     setFnName(showCity(Finish));
-    // }, [Finish, showCity])
