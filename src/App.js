@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { useState, useMemo } from "react";
-
 import "./App.css";
-
 import Menu from "./Page/Menu";
 import Check from "./Page/Check";
 import Ticket from "./Page/Ticket";
@@ -89,16 +87,32 @@ const App = () => {
       ];
     }, [])
   );
- 
+
+  const [ticketInfo, setTicketInfo] = useState(null);
   const [Start, setStart] = useState({ id: 0, City: "선택하지 않음" });
   const [Finish, setFinish] = useState({ id: 0, City: "선택하지 않음" });
+
+  const handleSetTicketInfo = (info) => {
+    setTicketInfo(info);
+    console.log("setTicketInfo(App) 호출됨:", info);
+  };
 
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/check" element={<Check />}></Route>
-          <Route path="/ticketing/Time" element={<Time />}></Route>
+          <Route path="/check" element={<Check ticketInfo={ticketInfo} />} />
+          <Route
+            path="/ticketing/Time"
+            element={
+              <Time
+                start={Start}
+                finish={Finish}
+                ticketCount={ticketInfo? ticketInfo.ticketCount:0}
+                onSetTicketInfo={handleSetTicketInfo} // Info 값을 setTicketInfo로 전달합니다.
+              />
+            }
+          />
           <Route
             path="/ticketing"
             element={
@@ -108,10 +122,11 @@ const App = () => {
                 Finish={Finish}
                 setFinish={setFinish}
                 cityList={cityList}
+                onSetTicketInfo={handleSetTicketInfo}
               />
             }
-          ></Route>
-          <Route path="/" element={<Menu />}></Route>
+          />
+          <Route path="/" element={<Menu />} />
         </Routes>
       </div>
     </BrowserRouter>

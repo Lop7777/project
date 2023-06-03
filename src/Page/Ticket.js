@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import City from "../Component/City";
 import Time from "./Time";
 
 const Ticket = (props) => {
-  const [pN, setpN] = useState(true);
+  const [pN, setPN] = useState(true);
   const [ticketCount, setTicketCount] = useState(0);
   const $modalStartFinish = useRef();
   const $modalTicketCount = useRef();
-
   useEffect(() => {
     $modalStartFinish.current = document.querySelector(".modal-start-finish");
     $modalTicketCount.current = document.querySelector(".modal-ticket-count");
@@ -38,6 +37,7 @@ const Ticket = (props) => {
         start={props.Start}
         finish={props.Finish}
         ticketCount={ticketCount}
+        onSetTicketInfo={props.onSetTicketInfo}
       />
     );
   }
@@ -51,7 +51,7 @@ const Ticket = (props) => {
       <div
         onClick={() => {
           $modalStartFinish.current.style.display = "block";
-          setpN(true);
+          setPN(true);
         }}
         id="StartPointButton"
       >
@@ -64,7 +64,7 @@ const Ticket = (props) => {
       <div
         onClick={() => {
           $modalStartFinish.current.style.display = "block";
-          setpN(false);
+          setPN(false);
         }}
         id="StartPointButton"
       >
@@ -85,6 +85,7 @@ const Ticket = (props) => {
       </div>
 
       <button onClick={handleNext}>다음</button>
+
 
       {/* 출발지/도착지 선택 모달 */}
       <div className="modal modal-start-finish">
@@ -151,5 +152,6 @@ const Ticket = (props) => {
 };
 
 export default Ticket;
+
 
 

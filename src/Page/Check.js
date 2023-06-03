@@ -1,31 +1,29 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-const Check = () => {
-  const [ticketNumber, setTicketNumber] = useState('');
-  const ticketInfo = useSelector((state) => state.ticket);
-  const [searchResult, setSearchResult] = useState(null);
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+const Check = ({ ticketInfo }) => {
+  const [ticketNumber, setTicketNumber] = useState("");
+  const [validTicket, setValidTicket] = useState(false);
 
   const handleSearch = () => {
-    if (ticketNumber === '') {
-      alert('티켓 번호를 입력해주세요.');
+    if (ticketNumber === "") {
+      alert("티켓 번호를 입력해주세요.");
       return;
     }
-  
-    if (ticketNumber === ticketInfo.ticketNumber) {
-      setSearchResult(ticketInfo);
+
+    if (ticketInfo && ticketNumber === ticketInfo.ticketNumber) {
+      setValidTicket(true);
     } else {
-      setSearchResult(null);
-      alert('잘못된 티켓 번호입니다.');
+      setValidTicket(false);
+      alert("잘못된 티켓 번호입니다.");
     }
   };
-  
 
   return (
     <div>
-        <div>
-            <h4 style={{textAlign:'center',}}>발권 확인</h4>
-        </div>
+      <div>
+        <h4 style={{ textAlign: "center" }}>발권 확인</h4>
+      </div>
       <input
         type="text"
         value={ticketNumber}
@@ -33,18 +31,19 @@ const Check = () => {
       />
       <button onClick={handleSearch}>검색</button>
 
-      {searchResult && (
+      {validTicket && (
         <div>
-          <h2>출발지: {searchResult.departureCity}</h2>
-          <h2>도착지: {searchResult.destinationCity}</h2>
-          <h2>발권 매수: {searchResult.ticketCount}</h2>
+          <h2>출발지: {ticketInfo.departureCity}</h2>
+          <h2>도착지: {ticketInfo.destinationCity}</h2>
+          <h2>발권 매수: {ticketInfo.ticketCount}</h2>
+          <h2>티켓 번호: {ticketInfo.ticketNumber}</h2>
           <Link to="/">홈으로</Link>
         </div>
       )}
 
-      {searchResult === null && (
+      {!validTicket && (
         <div>
-          <p>티켓 번호를 입력하세요.</p>
+          <p>{ticketNumber === "" ? "티켓 번호를 입력하세요." : "잘못된 티켓 번호입니다."}</p>
         </div>
       )}
     </div>
@@ -52,3 +51,4 @@ const Check = () => {
 };
 
 export default Check;
+
