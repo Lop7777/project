@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./App.css";
 import Menu from "./Page/Menu";
 import Check from "./Page/Check";
 import Ticket from "./Page/Ticket";
-import Time from "./Page/Time";
+import Schedule from "./Page/Schedule";
+// import Time from "./Page/Time";
 
 const App = () => {
   //데이터베이스로 묶을 예정
@@ -88,31 +89,43 @@ const App = () => {
     }, [])
   );
 
-  const [ticketInfo, setTicketInfo] = useState(null);
+  const [ticketInfo, setTicketInfo] = useState([]);
   const [Start, setStart] = useState({ id: 0, City: "선택하지 않음" });
   const [Finish, setFinish] = useState({ id: 0, City: "선택하지 않음" });
+  const [ticketCount, setTicketCount] = useState(0);
 
-  const handleSetTicketInfo = (info) => {
-    setTicketInfo(info);
-    console.log("setTicketInfo(App) 호출됨:", info);
-  };
+
+  useEffect(() => {
+    setTicketInfo({StartCity : Start, FinishCity : Finish, TicketNum : ticketCount});
+  }, [Start, Finish, ticketCount])
+
+
+  // const handleSetTicketInfo = (info) => {
+  //   setTicketInfo(info);
+  //   console.log("setTicketInfo(App) 호출됨:", info);
+  // };
 
   return (
     <BrowserRouter>
       <div className="App">
+
         <Routes>
           <Route path="/check" element={<Check ticketInfo={ticketInfo} />} />
-          <Route
+
+          {/* <Route
             path="/ticketing/Time"
             element={
               <Time
                 start={Start}
                 finish={Finish}
-                ticketCount={ticketInfo? ticketInfo.ticketCount:0}
-                onSetTicketInfo={handleSetTicketInfo} // Info 값을 setTicketInfo로 전달합니다.
+                ticketCount={ticketInfo? ticketInfo.ticketCount : 0}
+                setTicketInfo={handleSetTicketInfo} // Info 값을 setTicketInfo로 전달합니다.
               />
             }
-          />
+          /> */}
+
+          <Route path="/ticketing/Schedule" element={<Schedule ticketInfo={ticketInfo}/>}/>
+
           <Route
             path="/ticketing"
             element={
@@ -122,7 +135,8 @@ const App = () => {
                 Finish={Finish}
                 setFinish={setFinish}
                 cityList={cityList}
-                onSetTicketInfo={handleSetTicketInfo}
+                ticketCount={ticketCount}
+                setTicketCount={setTicketCount}
               />
             }
           />
