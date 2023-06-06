@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { Link } from 'react-router-dom';
 
-/*수정할 부분
- 발권 확인. && 현장 구매. 일 때만 페이지 넘어가짐
- 발권 확인이나 현장구매라고 말했을 때 글씨 event
-*/ 
-
 const Dictaphone = () => {
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
-
-  const [checkClicked, setCheckClicked] = useState(false);
-  const [ticketingClicked, setTicketingClicked] = useState(false);
+  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
   useEffect(() => {
-    if (transcript.includes('발권 확인')) {
+    const pattern = /발권\s*확인|현장\s*발권/g;
+    const match = transcript.match(pattern);
+
+    if (match && match.some((m) => m === '발권 확인')) { /*정규표현식*/ 
       setTimeout(() => {
         window.location.href = '/check';
       }, 2000);
-    } else if (transcript.includes('현장 발권')) {
-      setTicketingClicked(true);
-      setCheckClicked(false);
+    } else if (match && match.some((m) => m === '현장 발권')) {
       setTimeout(() => {
         window.location.href = '/ticketing';
       }, 2000);
@@ -52,16 +40,12 @@ const Dictaphone = () => {
       </div>
 
       <div id="menu">
-        <div style={{ color: checkClicked ? 'red' : 'black' }} 
-            onClick={() => {
-            setCheckClicked(true);
-            setTicketingClicked(false);}}
-        >
+        <div>
           <Link to="/check" id="check-link">
             발권 확인
           </Link>
         </div>
-        <div style={{ color: ticketingClicked ? 'red' : 'black' }}>
+        <div>
           <Link to="/ticketing" id="ticketing-link">
             현장 발권
           </Link>
