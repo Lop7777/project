@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import SpeechCtrl from '../Component/SpeechCtrl';
 
-const Dictaphone = () => {
-  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+const Menu = () => {
+  const [transcript, setTranscript] = useState('');
 
   useEffect(() => {
     const pattern = /발권\s*확인|현장\s*발권/g;
     const match = transcript.match(pattern);
 
-    if (match && match.some((m) => m === '발권 확인')) { /*정규표현식*/ 
+    if (match && match.some((m) => m === '발권 확인')) {
       setTimeout(() => {
         window.location.href = '/check';
       }, 2000);
@@ -20,24 +20,13 @@ const Dictaphone = () => {
     }
   }, [transcript]);
 
-  const handleStartListening = () => {
-    SpeechRecognition.stopListening();
-    SpeechRecognition.startListening({ language: 'ko-KR' });
+  const handleTranscriptChange = (newTranscript) => {
+    setTranscript(newTranscript);
   };
-
-  if (!browserSupportsSpeechRecognition) {
-    return <span>브라우저가 음성인식을 지원하지 않습니다</span>;
-  }
 
   return (
     <div>
-      <div>
-        <p id='text'>마이크: {listening ? '마이크 켜짐' : '마이크 꺼짐'}</p>
-        <button onClick={handleStartListening}>Start</button>
-        <button onClick={SpeechRecognition.stopListening}>Stop</button>
-        <button onClick={resetTranscript}>Reset</button>
-        <p id='ipText'>{transcript}</p>
-      </div>
+      <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
 
       <div id="menu">
         <div>
@@ -55,4 +44,4 @@ const Dictaphone = () => {
   );
 };
 
-export default Dictaphone;
+export default Menu;
