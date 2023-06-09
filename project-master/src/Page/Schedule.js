@@ -46,10 +46,11 @@ const Schedule = (props) => { // 좌석
     });
   };
 
-    const handleReservation = async () => {
+  const handleReservation = async () => {
     const selectedSeats = seats.filter((seat) => seat !== null); // 선택 좌석 가져옴
     const combinedSeats = [...disableSeats, ...selectedSeats]; // 기존 seat 배열과 새로운 seats 배열을 합침
-
+    
+    
     axios // 서버4000으로 염
         .post('http://localhost:4000/reservation', {
         seats: combinedSeats, // 선택 좌석 서버 전송
