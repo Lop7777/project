@@ -9,11 +9,11 @@ const Menu = () => {
     const pattern = /발권\s*확인|현장\s*발권/g;
     const match = transcript.match(pattern);
 
-    if (match && match.some((m) => m === '발권 확인')) {
+    if (match && match.some((m) => m === '발권확인')) {
       setTimeout(() => {
         window.location.href = '/check';
       }, 2000);
-    } else if (match && match.some((m) => m === '현장 발권')) {
+    } else if (match && match.some((m) => m === '현장발권')) {
       setTimeout(() => {
         window.location.href = '/ticketing';
       }, 2000);

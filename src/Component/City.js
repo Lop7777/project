@@ -1,43 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import SpeechCtrl from '../Component/SpeechCtrl';
 
 const City = (props) => {
-    
-    const [cityList] = useState(props.cityList);
-    
-    const tables = [];
-    const tableCount = Math.ceil(cityList.length / 16);
+  const [transcript, setTranscript] = useState('');
 
-    for (let tableIndex = 0; tableIndex < tableCount; tableIndex++) {
-        const startIndex = tableIndex * 16;
-        const cities = cityList.slice(startIndex, startIndex + 16);
-        const tableRows = [];
+  const handleCitySelection = (city) => {
+    if (props.pN) {
+      props.setStart(city);
+    } else {
+      props.setFinish(city);
+    }
+  };
 
-        for (let i = 0; i < 4; i++) {
-            const tableCells = [];
+  const handleTranscriptChange = (newTranscript) => {
+    setTranscript(newTranscript);
 
-            for (let j = 0; j < 4; j++) {
-                const cityIndex = i * 4 + j;
-                if (cities[cityIndex] === undefined) {
-                    break;
-                }
-                tableCells.push(
-                <td key={j}
-                id='CityTd'
-                onClick={() => {props.pN ? props.setStart( current => current = cities[cityIndex] ) : props.setFinish( current => current = cities[cityIndex]); console.log(cities[cityIndex])}}>{cities[cityIndex].City}</td>);
-            }
+    // 선택된 도시 정보 처리
+    const selectedCity = props.cityList.find((city) =>
+      newTranscript.includes(city.City)
+    );
+    if (selectedCity) {
+      handleCitySelection(selectedCity);
+    }
+  };
 
-        tableRows.push(<tr key={i}>{tableCells}</tr>);
+
+  const { cityList } = props;
+  const tables = [];
+  const tableCount = Math.ceil(cityList.length / 16);
+
+  for (let tableIndex = 0; tableIndex < tableCount; tableIndex++) {
+    const startIndex = tableIndex * 16;
+    const cities = cityList.slice(startIndex, startIndex + 16);
+    const tableRows = [];
+
+    for (let i = 0; i < 4; i++) {
+      const tableCells = [];
+
+      for (let j = 0; j < 4; j++) {
+        const cityIndex = i * 4 + j;
+        if (cities[cityIndex] === undefined) {
+          break;
+        }
+        tableCells.push(
+          <td
+            key={j}
+            id='CityTd'
+            onClick={() => {
+              handleCitySelection(cities[cityIndex]);
+            }}
+          >
+            {cities[cityIndex].City}
+          </td>
+        );
+      }
+
+      tableRows.push(<tr key={i}>{tableCells}</tr>);
     }
 
-
     tables.push(
-        <table key={tableIndex}>
-            <tbody>{tableRows}</tbody>
-        </table>
+      <table key={tableIndex}>
+        <tbody>{tableRows}</tbody>
+      </table>
     );
   }
 
-  return <div className='CityTable'>{tables}</div>;
+  return (
+    <div>
+      <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
+
+      <div className='CityTable'>{tables}</div>
+    </div>
+  );
 };
 
 export default City;
