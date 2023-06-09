@@ -6,11 +6,7 @@ import Check from "./Page/Check";
 import Ticket from "./Page/Ticket";
 import Schedule from "./Page/Schedule";
 
-// import Time from "./Page/Time";
-
 const App = () => {
-  //데이터베이스로 묶을 예정
-  //중복 호출 방지를 위해 메모이징으로 최적화
   const [cityList] = useState(
     useMemo(() => {
       return [
@@ -73,19 +69,7 @@ const App = () => {
         {
           id: 1500,
           City: "O시",
-        },
-        {
-          id: 1600,
-          City: "P시",
-        },
-        {
-          id: 1700,
-          City: "Q시",
-        },
-        {
-          id: 1800,
-          City: "R시",
-        },
+        }
       ];
     }, [])
   );
@@ -100,11 +84,14 @@ const App = () => {
     setTicketInfo({StartCity : Start, FinishCity : Finish, TicketNum : ticketCount});
   }, [Start, Finish, ticketCount])
 
-
-  // const handleSetTicketInfo = (info) => {
-  //   setTicketInfo(info);
-  //   console.log("setTicketInfo(App) 호출됨:", info);
-  // };
+  useEffect(() => {
+    setTicketInfo(prevTicketInfo => ({
+      ...prevTicketInfo,
+      StartCity: Start,
+      FinishCity: Finish,
+      TicketNum: ticketCount
+    }));
+  }, [Start, Finish, ticketCount]);
 
   return (
     <BrowserRouter>
@@ -112,19 +99,6 @@ const App = () => {
 
         <Routes>
           <Route path="/check" element={<Check ticketInfo={ticketInfo} />} />
-
-          {/* <Route
-            path="/ticketing/Time"
-            element={
-              <Time
-                start={Start}
-                finish={Finish}
-                ticketCount={ticketInfo? ticketInfo.ticketCount : 0}
-                setTicketInfo={handleSetTicketInfo} // Info 값을 setTicketInfo로 전달합니다.
-              />
-            }
-          /> */}
-
           <Route path="/ticketing/Schedule" element={<Schedule ticketInfo={ticketInfo}/>}/>
 
           <Route

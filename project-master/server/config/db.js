@@ -1,4 +1,4 @@
-var mysql = require('mysql2');
+var mysql = require('mysql');
 const db = mysql.createPool({
     host : 'localhost',
     user : 'root',

@@ -3,9 +3,8 @@ const app = express();
 const port = 4000;
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mysql = require("mysql2");
-// npm install mysql2
-const connection = mysql.createConnection({ // 본인 환경에 맞춰서 바꿔서 하시면 되요
+const mysql = require("mysql");
+const connection = mysql.createConnection({
   host: "localhost", 
   user: "root", 
   password: "1234", 
@@ -40,6 +39,64 @@ app.get("/bus", (req, res) => {
     }
   });
 });
+
+app.post("/reservation", (req, res) => {
+  const { seats, start, end } = req.body;
+
+  const checkQuery = `SELECT * FROM bus WHERE start='${start}' AND end='${end}'`;
+  connection.query(checkQuery, (error, results) => {
+    if (error) {
+      console.error("Error executing query:", error);
+      res.status(500).json({ error: "Failed to check bus data" });
+      return;
+    }
+    if (results.length > 0) {
+      const busId = results[0].id;
+      let seatArray;
+      try {
+        seatArray = JSON.parse(results[0].seat);
+        if (!Array.isArray(seatArray)) {
+          seatArray = [];
+        }
+      } catch (error) {
+        seatArray = [];
+      }
+
+      const updatedSeatArray = [...seatArray, ...seats];
+      const uniqueSeats = Array.from(new Set(updatedSeatArray));
+
+      const updateQuery = `UPDATE bus SET seat='${JSON.stringify(uniqueSeats)}' WHERE id=${busId}`;
+      connection.query(updateQuery, (error) => {
+        if (error) {
+          console.error("Error executing query:", error);
+          res.status(500).json({ error: "Failed to update bus data" });
+          return;
+        }
+        res.json({ message: "Reservation successful" });
+      });
+    } else {
+      const insertQuery = `INSERT INTO bus (start, end, seat) VALUES ('${start}', '${end}', '${JSON.stringify(
+        seats
+      )}')`;
+      connection.query(insertQuery, (error) => {
+        if (error) {
+          console.error("Error executing query:", error);
+          res.status(500).json({ error: "Failed to insert bus data" });
+          return;
+        }
+        res.json({ message: "Reservation successful" });
+      });
+    }
+  });
+});
+
+
+
+app.listen(port, () => {
+  console.log(`Connect at http://localhost:${port}`);
+});
+
+
 
 // app.post("/reservation", (req, res) => {
 //   const { seats, start, end } = req.body; //정보 추출 내보내야함
@@ -95,61 +152,3 @@ app.get("/bus", (req, res) => {
 //     }
 //   });
 // });
-
-
-app.post("/reservation", (req, res) => {
-  const { seats, start, end } = req.body;
-
-  const checkQuery = `SELECT * FROM bus WHERE start='${start}' AND end='${end}'`;
-  connection.query(checkQuery, (error, results) => {
-    if (error) {
-      console.error("Error executing query:", error);
-      res.status(500).json({ error: "Failed to check bus data" });
-      return;
-    }
-
-    if (results.length > 0) {
-      const busId = results[0].id;
-      let seatArray;
-      try {
-        seatArray = JSON.parse(results[0].seat);
-        if (!Array.isArray(seatArray)) {
-          seatArray = [];
-        }
-      } catch (error) {
-        seatArray = [];
-      }
-
-      const updatedSeatArray = [...seatArray, ...seats];
-      const uniqueSeats = Array.from(new Set(updatedSeatArray));
-
-      const updateQuery = `UPDATE bus SET seat='${JSON.stringify(uniqueSeats)}' WHERE id=${busId}`;
-      connection.query(updateQuery, (error) => {
-        if (error) {
-          console.error("Error executing query:", error);
-          res.status(500).json({ error: "Failed to update bus data" });
-          return;
-        }
-        res.json({ message: "Reservation successful" });
-      });
-    } else {
-      const insertQuery = `INSERT INTO bus (start, end, seat) VALUES ('${start}', '${end}', '${JSON.stringify(
-        seats
-      )}')`;
-      connection.query(insertQuery, (error) => {
-        if (error) {
-          console.error("Error executing query:", error);
-          res.status(500).json({ error: "Failed to insert bus data" });
-          return;
-        }
-        res.json({ message: "Reservation successful" });
-      });
-    }
-  });
-});
-
-
-
-app.listen(port, () => {
-  console.log(`Connect at http://localhost:${port}`);
-});
