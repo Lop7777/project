@@ -15,11 +15,11 @@ const App = () => {
       return [
         {
           id: 100,
-          City: "A시",
+          City: "가",
         },
         {
           id: 200,
-          City: "B시",
+          City: "나",
         },
         {
           id: 300,
