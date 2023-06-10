@@ -3,12 +3,9 @@ import { Link } from 'react-router-dom';
 
 const Schedule = (props) => {
     
-    const SCID = props.ticketInfo.StartCity.id,
-        SCNAME = props.ticketInfo.StartCity.City,
-        FCID = props.ticketInfo.FinishCity.id,
+    const SCNAME = props.ticketInfo.StartCity.City,
         FCNAME = props.ticketInfo.FinishCity.City,
-        TICKETNUM = props.ticketInfo.TicketNum,
-        TICKETDATE = props.ticketInfo.TicketDate
+        TICKETNUM = props.ticketInfo.TicketNum
 
     const TimeData = [];
     const tdElements = document.querySelectorAll('td');
@@ -36,12 +33,29 @@ const Schedule = (props) => {
 
     const renderTable = () => {
         const table = [];
+        const reservation = [];
+
+        props.TicketData.forEach(element => {
+            if(element.TicketDate === props.ticketInfo.TicketDate) {
+                if(element.StartCity.id === props.ticketInfo.StartCity.id) {
+                    if(element.FinishCity.id === props.ticketInfo.FinishCity.id) {
+                        if(element.TicketTime === props.ticketInfo.TicketTime) {
+                            reservation.push(element.SeatNum);
+                        }
+                    }
+                }
+            }
+        })
 
         for (let i = 1; i <= 10; i++) {
             const cells = [];
 
             for (let j = 1; j <= 4; j++) {
                 const cellValue = (i - 1) * 4 + j;
+                if(reservation.includes(cellValue)) {
+                    cells.push(<td key={cellValue} style={{backgroundColor: 'red'}} onClick={() => alert('이미 예약되었습니다')}>{cellValue}</td>);
+                    continue;
+                }
                 cells.push(<td key={cellValue} onClick={
                     (e) => {
                         if(!props.SeatNum.includes(cellValue)) {
@@ -98,7 +112,12 @@ const Schedule = (props) => {
                             <tbody id='SeatElement'>{renderTable()}</tbody>
                         </table>
                     </div>
-                    <Link to={'/ticketing/Time'}><button>선택 완료</button></Link>
+                    <Link to={'/ticketing/Time'}>
+                        <button onClick={(e) => {
+                            if(props.SeatNum.length < TICKETNUM) {
+                                alert(`${TICKETNUM} 장을 선택해야 합니다.`);
+                                e.preventDefault(); 
+                            }}}>선택 완료</button></Link>
                 </div>
             </div>
         </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Time = (props) => {
@@ -9,9 +9,11 @@ const Time = (props) => {
         TICKETNUM = props.ticketInfo.TicketNum,
         TICKETDATE = props.ticketInfo.TicketDate
         
-  const [ticketNumber, setTicketNumber] = useState("");
   const [showButton, setShowButton] = useState(true);
   const [ticketInfo, setTicketInfo] = useState([]);
+  const [TicketList, setTicketList] = useState([]);
+  const [table, setTable] = useState([]);
+  let keyNum = 0;  
 
   const generateTicketNumber = () => {
     const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
@@ -23,16 +25,15 @@ const Time = (props) => {
       alert('error');
       return;
     }
-    
-
+    setTicketInfo([]);
     for(let i = 0; i < TICKETNUM; i++) {
-      setTicketNumber(generateTicketNumber());
-      setShowButton(false);
+      let TicketNum = generateTicketNumber();
       let seat = props.ticketInfo.SeatNum[i];
 
-      setTicketInfo( (prev) => [...prev,
+      setTicketInfo( prev => [
+        ...prev,
         {
-          TicketID : ticketNumber,
+          TicketID : TicketNum,
           StartCity : props.ticketInfo.StartCity,
           FinishCity : props.ticketInfo.FinishCity,
           TicketDate : props.ticketInfo.TicketDate,
@@ -42,8 +43,26 @@ const Time = (props) => {
       ]
       );
     }
-    props.setTicketData( (prev) => [...prev, ...ticketInfo] )
+    setShowButton(false);
   };
+
+  const handleButtonClick = (info) => {
+    props.setTicketData( prev => [...prev, ...info] );
+  }
+
+  useEffect( () => {
+    setTable([]);
+    table.push(
+      <div key={keyNum}>
+        {ticketInfo.map((element, index) =>
+          <div key={index}> 티켓 번호 : {element.TicketID} 출발지 : {element.StartCity.City} 도착지 : {element.FinishCity.City} 날짜 : {element.TicketDate} 시간 : {element.TicketTime} 좌석 번호 : {element.SeatNum}</div>
+        )}
+      </div>
+    )
+    setTicketList(table);
+    handleButtonClick(ticketInfo);
+    keyNum ++;
+  }, [ticketInfo] )
 
   return (
     <div>
@@ -51,14 +70,12 @@ const Time = (props) => {
       <div>도착지: {FCNAME ? FCNAME : "error"}</div>
       <div>발권 매수: {TICKETNUM}</div>
       
-      {!showButton && (
-        <div>티켓 번호: {ticketNumber}</div>
-      )}
+      {TicketList}
       
       {showButton && (
         <button onClick={handleSetTicketInfo}>정보가 맞다면 버튼을 눌러 티켓 번호를 확인하세요</button>
       )}
-
+      <button onClick={() => {console.log(props.TicketData); console.log(ticketInfo);}}></button>
       <div>
         <Link to="/">홈으로 이동</Link>
       </div>

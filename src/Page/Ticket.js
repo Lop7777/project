@@ -13,7 +13,11 @@ const Ticket = (props) => {
     $modalTicketCount.current = document.querySelector(".modal-ticket-count");
   }, []);
 
-
+  useEffect(() => {
+    props.setTicketCount(0);
+    props.setTDate('0000-00-00');
+  }, []);
+  
 
   const handleNext = (event) => {
     if (!props.Start.id || !props.Finish.id || props.ticketCount === 0 || props.tDate === '0000-00-00' || props.Start.id === props.Finish.id) {

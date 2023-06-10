@@ -76,6 +76,8 @@ const App = () => {
   );
 
   const [ticketInfo, setTicketInfo] = useState([]);
+
+
   const [Start, setStart] = useState({ id: 0, City: "선택하지 않음" });
   const [Finish, setFinish] = useState({ id: 0, City: "선택하지 않음" });
   const [ticketCount, setTicketCount] = useState(0);
@@ -84,20 +86,14 @@ const App = () => {
   const [SeatNum, setSeatNum] = useState([]);
   const [TicketData, setTicketData] = useState([]);
 
+
   useEffect(() => {
     setTicketInfo({StartCity : Start, FinishCity : Finish, TicketNum : ticketCount, TicketDate : tDate, TicketTime : tTime, SeatNum : SeatNum});
   }, [Start, Finish, ticketCount, tDate, tTime, SeatNum])
 
-
-  // const handleSetTicketInfo = (info) => {
-  //   setTicketInfo(info);
-  //   console.log("setTicketInfo(App) 호출됨:", info);
-  // };
-
   return (
     <BrowserRouter>
       <div className="App">
-
         <Routes>
           
           <Route
@@ -111,8 +107,8 @@ const App = () => {
             }
           />
 
-          <Route path="/check" element={<Check ticketInfo={ticketInfo} />} />
-          <Route path="/ticketing/Schedule" element={<Schedule ticketInfo={ticketInfo} setTTime = {setTTime} SeatNum = {SeatNum} setSeatNum = {setSeatNum}/>}/>
+          <Route path="/check" element={<Check TicketData={TicketData} />} />
+          <Route path="/ticketing/Schedule" element={<Schedule TicketData={TicketData} ticketInfo={ticketInfo} setTTime = {setTTime} SeatNum = {SeatNum} setSeatNum = {setSeatNum}/>}/>
 
           <Route
             path="/ticketing"
