@@ -16,8 +16,8 @@ const Ticket = (props) => {
 
 
   const handleNext = (event) => {
-    if (!props.Start.id || !props.Finish.id || props.ticketCount === 0) {
-      alert("출발지, 도착지, 발권 매수를 선택해주세요.");
+    if (!props.Start.id || !props.Finish.id || props.ticketCount === 0 || props.tDate === '0000-00-00' || props.Start.id === props.Finish.id) {
+      alert("출발지, 도착지, 발권 매수, 날짜를 확인해주세요.");
       event.preventDefault();
     }
   };
@@ -45,6 +45,10 @@ const Ticket = (props) => {
       <div  id="TicketButton" onClick={() => { $modalTicketCount.current.style.display = "block"; }}>
         <div>발권 매수 선택</div>
         <div style={{ textAlign: "right" }}>{props.ticketCount}</div>
+      </div>
+
+      <div>
+        <input type="date" min="2023-06-13" max="2023-07-10" onChange={(e) => props.setTDate(e.target.value)}/>
       </div>
 
       <Link to="/ticketing/Schedule" onClick={handleNext}>다음</Link>

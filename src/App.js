@@ -5,85 +5,71 @@ import Menu from "./Page/Menu";
 import Check from "./Page/Check";
 import Ticket from "./Page/Ticket";
 import Schedule from "./Page/Schedule";
-// import Time from "./Page/Time";
+import Time from "./Page/Time";
 
 const App = () => {
-  //데이터베이스로 묶을 예정
-  //중복 호출 방지를 위해 메모이징으로 최적화
   const [cityList] = useState(
     useMemo(() => {
       return [
         {
           id: 100,
-          City: "A시",
+          City: "고양종합터미널",
         },
         {
           id: 200,
-          City: "B시",
+          City: "광명종합터미널",
         },
         {
           id: 300,
-          City: "C시",
+          City: "구리시외버스정류장",
         },
         {
           id: 400,
-          City: "D시",
+          City: "나주시외버스터미널",
         },
         {
           id: 500,
-          City: "E시",
+          City: "대림동산정류소",
         },
         {
           id: 600,
-          City: "F시",
+          City: "대림동산정류소",
         },
         {
           id: 700,
-          City: "G시",
+          City: "보령종합터미널",
         },
         {
           id: 800,
-          City: "H시",
+          City: "세종고속시외버스터미널",
         },
         {
           id: 900,
-          City: "I시",
+          City: "원주고속버스터미널",
         },
         {
           id: 1000,
-          City: "J시",
+          City: "안중버스터미널",
         },
         {
           id: 1100,
-          City: "K시",
+          City: "이천종합터미널",
         },
         {
           id: 1200,
-          City: "L시",
+          City: "인천종합터미널",
         },
         {
           id: 1300,
-          City: "M시",
+          City: "천안고속버스터미널",
         },
         {
           id: 1400,
-          City: "N시",
+          City: "평택고속버스터미널",
         },
         {
           id: 1500,
-          City: "O시",
-        },
-        {
-          id: 1600,
-          City: "P시",
-        },
-        {
-          id: 1700,
-          City: "Q시",
-        },
-        {
-          id: 1800,
-          City: "R시",
+          City: "포천시외버스터미널",
         },
       ];
     }, [])
@@ -93,11 +79,14 @@ const App = () => {
   const [Start, setStart] = useState({ id: 0, City: "선택하지 않음" });
   const [Finish, setFinish] = useState({ id: 0, City: "선택하지 않음" });
   const [ticketCount, setTicketCount] = useState(0);
-
+  const [tDate, setTDate] = useState('0000-00-00');
+  const [tTime, setTTime] = useState(0);
+  const [SeatNum, setSeatNum] = useState([]);
+  const [TicketData, setTicketData] = useState([]);
 
   useEffect(() => {
-    setTicketInfo({StartCity : Start, FinishCity : Finish, TicketNum : ticketCount});
-  }, [Start, Finish, ticketCount])
+    setTicketInfo({StartCity : Start, FinishCity : Finish, TicketNum : ticketCount, TicketDate : tDate, TicketTime : tTime, SeatNum : SeatNum});
+  }, [Start, Finish, ticketCount, tDate, tTime, SeatNum])
 
 
   // const handleSetTicketInfo = (info) => {
@@ -110,21 +99,20 @@ const App = () => {
       <div className="App">
 
         <Routes>
-          <Route path="/check" element={<Check ticketInfo={ticketInfo} />} />
-
-          {/* <Route
+          
+          <Route
             path="/ticketing/Time"
             element={
               <Time
-                start={Start}
-                finish={Finish}
-                ticketCount={ticketInfo? ticketInfo.ticketCount : 0}
-                setTicketInfo={handleSetTicketInfo} // Info 값을 setTicketInfo로 전달합니다.
+                ticketInfo={ticketInfo}
+                TicketData={TicketData}
+                setTicketData={setTicketData}
               />
             }
-          /> */}
+          />
 
-          <Route path="/ticketing/Schedule" element={<Schedule ticketInfo={ticketInfo}/>}/>
+          <Route path="/check" element={<Check ticketInfo={ticketInfo} />} />
+          <Route path="/ticketing/Schedule" element={<Schedule ticketInfo={ticketInfo} setTTime = {setTTime} SeatNum = {SeatNum} setSeatNum = {setSeatNum}/>}/>
 
           <Route
             path="/ticketing"
@@ -137,9 +125,12 @@ const App = () => {
                 cityList={cityList}
                 ticketCount={ticketCount}
                 setTicketCount={setTicketCount}
+                tDate={tDate}
+                setTDate={setTDate}
               />
             }
           />
+
           <Route path="/" element={<Menu />} />
         </Routes>
       </div>

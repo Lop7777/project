@@ -26,8 +26,8 @@ const City = (props) => {
                 onClick={() => {props.pN ? props.setStart( current => current = cities[cityIndex] ) : props.setFinish( current => current = cities[cityIndex]); console.log(cities[cityIndex])}}>{cities[cityIndex].City}</td>);
             }
 
-        tableRows.push(<tr key={i}>{tableCells}</tr>);
-    }
+            tableRows.push(<tr key={i}>{tableCells}</tr>);
+        }
 
 
     tables.push(
