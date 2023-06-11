@@ -54,7 +54,6 @@ const City = (props) => {
             id='CityTd'
             onClick={() => {
               props.pN ? props.setStart(cities[cityIndex]) : props.setFinish(cities[cityIndex]);
-              console.log(cities[cityIndex]);
             }}>
             {cities[cityIndex].City}
           </td>

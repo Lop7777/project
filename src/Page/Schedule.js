@@ -146,8 +146,6 @@ const Schedule = (props) => {
               } else {
                 e.target.style.backgroundColor = "white";
               }
-
-              console.log(props.ticketInfo);
             }}
           >
             {cellValue}

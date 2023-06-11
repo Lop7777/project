@@ -54,7 +54,7 @@ const Time = (props) => {
     table.push(
       <div key={keyNum}>
         {ticketInfo.map((element, index) =>
-          <div key={index}> 티켓 번호 : {element.TicketID} 출발지 : {element.StartCity.City} 도착지 : {element.FinishCity.City} 시간 : {element.TicketTime} 좌석 번호 : {element.SeatNum}</div>
+          <div key={index}> 티켓 번호 : {element.TicketID} / 출발지 : {element.StartCity.City} / 도착지 : {element.FinishCity.City} / 시간 : {element.TicketTime} 시 / 좌석 번호 : {element.SeatNum}</div>
         )}
       </div>
     )
