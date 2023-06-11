@@ -37,8 +37,7 @@ const Check = ({ TicketData }) => {
         <div>
           <h2>출발지: {findTicket.StartCity.City}</h2>
           <h2>도착지: {findTicket.FinishCity.City}</h2>
-          <h2>출발 날짜: {findTicket.TicketDate}</h2>
-          <h2>출발 시간: {findTicket.TicketTime}</h2>
+          <h2>출발 시간: {findTicket.TicketTime} 시</h2>
           <h2>티켓 번호: {findTicket.TicketID}</h2>
           <h2>좌석 번호: {findTicket.SeatNum}</h2>
           <Link to="/">홈으로</Link>
@@ -47,7 +46,7 @@ const Check = ({ TicketData }) => {
 
       {!validTicket && (
         <div>
-          <p>{ticketNumber === "" ? "티켓 번호를 입력하세요." : "잘못된 티켓 번호입니다."}</p>
+          <p>{"티켓 번호를 입력하세요."}</p>
         </div>
       )}
     </div>

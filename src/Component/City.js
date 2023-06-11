@@ -1,43 +1,83 @@
 import React, { useState } from 'react';
+import SpeechCtrl from '../Component/SpeechCtrl';
 
 const City = (props) => {
-    
-    const [cityList] = useState(props.cityList);
-    
-    const tables = [];
-    const tableCount = Math.ceil(cityList.length / 16);
+  const [transcript, setTranscript] = useState('');
 
-    for (let tableIndex = 0; tableIndex < tableCount; tableIndex++) {
-        const startIndex = tableIndex * 16;
-        const cities = cityList.slice(startIndex, startIndex + 16);
-        const tableRows = [];
+  const handleCitySelection = (city) => {
+    if (props.pN) {
+      props.setStart(city);
+    } else {
+      props.setFinish(city);
+    }
+  };
 
-        for (let i = 0; i < 4; i++) {
-            const tableCells = [];
+  const handleTranscriptChange = (newTranscript) => {
+    setTranscript(newTranscript);
 
-            for (let j = 0; j < 4; j++) {
-                const cityIndex = i * 4 + j;
-                if (cities[cityIndex] === undefined) {
-                    break;
-                }
-                tableCells.push(
-                <td key={j}
-                id='CityTd'
-                onClick={() => {props.pN ? props.setStart( current => current = cities[cityIndex] ) : props.setFinish( current => current = cities[cityIndex]); console.log(cities[cityIndex])}}>{cities[cityIndex].City}</td>);
-            }
+    const selectedCity = props.cityList.find((city) =>
+      city.City === newTranscript.replace(/\s/g, '') ||
+      city.City === newTranscript.replace(/\s/g, '') + '종합터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '시외버스터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '버스터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '고속버스터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '동산정류소' ||
+      city.City === newTranscript.replace(/\s/g, '') + '복합터미널'
+    );
 
-            tableRows.push(<tr key={i}>{tableCells}</tr>);
+    if (selectedCity) {
+      handleCitySelection(selectedCity);
+    }
+  };
+
+  const [cityList] = useState(props.cityList);
+
+  const tables = [];
+  const tableCount = Math.ceil(cityList.length / 16);
+
+  for (let tableIndex = 0; tableIndex < tableCount; tableIndex++) {
+    const startIndex = tableIndex * 16;
+    const cities = cityList.slice(startIndex, startIndex + 16);
+    const tableRows = [];
+
+    for (let i = 0; i < 4; i++) {
+      const tableCells = [];
+
+      for (let j = 0; j < 4; j++) {
+        const cityIndex = i * 4 + j;
+        if (cities[cityIndex] === undefined) {
+          break;
         }
+        tableCells.push(
+          <td
+            key={j}
+            id='CityTd'
+            onClick={() => {
+              props.pN ? props.setStart(cities[cityIndex]) : props.setFinish(cities[cityIndex]);
+              console.log(cities[cityIndex]);
+            }}>
+            {cities[cityIndex].City}
+          </td>
+        );
+      }
 
+      tableRows.push(<tr key={i}>{tableCells}</tr>);
+    }
 
     tables.push(
-        <table key={tableIndex}>
-            <tbody>{tableRows}</tbody>
-        </table>
+      <table key={tableIndex}>
+        <tbody>{tableRows}</tbody>
+      </table>
     );
   }
 
-  return <div className='CityTable'>{tables}</div>;
+  return (
+    <>
+      <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
+
+      <div className='CityTable'>{tables}</div>
+    </>
+  );
 };
 
 export default City;

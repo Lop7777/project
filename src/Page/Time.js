@@ -6,8 +6,7 @@ const Time = (props) => {
         SCNAME = props.ticketInfo.StartCity.City,
         FCID = props.ticketInfo.FinishCity.id,
         FCNAME = props.ticketInfo.FinishCity.City,
-        TICKETNUM = props.ticketInfo.TicketNum,
-        TICKETDATE = props.ticketInfo.TicketDate
+        TICKETNUM = props.ticketInfo.TicketNum
         
   const [showButton, setShowButton] = useState(true);
   const [ticketInfo, setTicketInfo] = useState([]);
@@ -21,7 +20,7 @@ const Time = (props) => {
   };
 
   const handleSetTicketInfo = () => {
-    if(!SCID || !FCID || TICKETNUM === 0 || TICKETDATE === '0000-00-00') {
+    if(!SCID || !FCID || TICKETNUM === 0) {
       alert('error');
       return;
     }
@@ -55,7 +54,7 @@ const Time = (props) => {
     table.push(
       <div key={keyNum}>
         {ticketInfo.map((element, index) =>
-          <div key={index}> 티켓 번호 : {element.TicketID} 출발지 : {element.StartCity.City} 도착지 : {element.FinishCity.City} 날짜 : {element.TicketDate} 시간 : {element.TicketTime} 좌석 번호 : {element.SeatNum}</div>
+          <div key={index}> 티켓 번호 : {element.TicketID} 출발지 : {element.StartCity.City} 도착지 : {element.FinishCity.City} 시간 : {element.TicketTime} 좌석 번호 : {element.SeatNum}</div>
         )}
       </div>
     )
@@ -75,7 +74,6 @@ const Time = (props) => {
       {showButton && (
         <button onClick={handleSetTicketInfo}>정보가 맞다면 버튼을 눌러 티켓 번호를 확인하세요</button>
       )}
-      <button onClick={() => {console.log(props.TicketData); console.log(ticketInfo);}}></button>
       <div>
         <Link to="/">홈으로 이동</Link>
       </div>
@@ -84,4 +82,3 @@ const Time = (props) => {
 };
 
 export default Time;
-
