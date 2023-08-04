@@ -138,7 +138,7 @@ const Ticket = (props) => {
       <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
       <Link to="/">홈버튼</Link>
 
-      <div>출발 일자 및 도착지 선택</div>
+      <div style={{ paddingLeft: '30px' }}>출발 일자 및 도착지 선택</div>
 
       <div id="TicketButton" onClick={() => { $modalStartFinish.current.style.display = "block"; setPN(true); }}>
         <div>출발지 선택</div>

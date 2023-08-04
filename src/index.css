@@ -8,9 +8,11 @@ body {
 
   overflow:hidden;
   cursor:default;
+  overflow: auto;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

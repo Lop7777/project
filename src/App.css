@@ -1,41 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
 .App {
-  display: flex;
-  align-items: center;
-  width: 1300px;
-  height: 800px;
-  justify-content: center;
-  margin: auto;
-  margin-top: 50px;
+  padding: 3%;
+  font-family: "Black Han Sans";
 }
 
+
+#logo {
+  margin: 0;
+  text-align: center; /* Center-align the text */
+  font-size: 60px; /* Increase the font size */
+  color: #fada59; /* Change the text color to #fada59 */
+  border: 5px solid #fefbee; /* Add a text border with color #fefbee */
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+
 #text {
-  padding-top: 2%;
+  font-weight: bold;
+  color: #73471a;
 }
 
 #ipText {
-  width: 100px;
+  width: 300px;
   height: 30px;
+  text-align: center; 
+  font-weight: bold;
+  padding-top: 10px;
+  border-radius: 20px;
+  background-color: #fada59;
 }
 
-#menu {
+/* menu js*/
+.menu {
   display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: space-around;
-  width: 1300px;
-  height: 800px;
-  border: 1px solid black;
-  margin: auto;
-  box-sizing: border-box;
+  justify-content: center; /* 수평 가운데 정렬 */
+  margin-top: 2%;
 }
 
-#menu > div {
-  border: 1px solid black;
-  width: 650px;
-  height: 800px;
-  line-height: 800px;
-  font-size: 50px;
+#checkLink, #ticketingLink {
+  display: inline-block;
+  width: 500px;
+  height: 200px;
+  background-color: #fffbef;
+  border: 2px solid #E48586;
+  text-align: center;
+  line-height: 200px; /* 가운데 정렬을 위해 height값으로 설정 */
+  margin: 30px;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
 }
+
+#checkLink::before, #ticketingLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 100%;
+  background-color: #FFC6AC
+}
+
+#checkLink::after, #ticketingLink::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 100%;
+  background-color: #FFC6AC; 
+}
+
+
+
+
+a {
+  display: inline-block; /* <a> 태그를 inline-block으로 설정 */
+  text-decoration-line: none;
+  color: #a06f4a;
+  font-size: 35px; /* 글씨 크기를 변경합니다 */
+  display: flex; /* <a> 태그 내부 요소들을 가운데 정렬시키기 위해 flex를 사용합니다 */
+  align-items: center; /* 수직 가운데 정렬을 적용합니다 */
+  justify-content: center; /* 수평 가운데 정렬을 적용합니다 */
+}
+
+/*발권 확인*/
+
+/*여긴 뭘까*/
 
 #menu > div > a {
   padding: 60px 50px 60px 50px;
@@ -61,24 +113,20 @@ a {
   position: absolute;
   top: 50%;
   left: 50%;
-
   width: 1000px;
   height: 600px;
-
   padding: 40px;
-
   text-align: center;
-
   background-color: rgb(255, 255, 255);
   border-radius: 20px;
-
-  transform: translateX(-50%) translateY(-53%);
+  transform: translateX(-50%) translateY(-50%); /* 수정된 translateY 값 */
+  overflow: auto; /* 모달 내용이 넘칠 경우 스크롤 생성 */
 }
 
 #close {
-  position:fixed;
-  right:15px;
-  top:15px;
+  position: absolute; /* 모달 내부에 고정되도록 변경 */
+  right: 15px;
+  top: 15px;
   color: none;
   border-radius: 20px;
   width: 35px;
@@ -93,7 +141,11 @@ a {
 
 #CityTd {
   border: 1px solid black;
+  width: 30px;
+  height: 15px;
   padding: 40px 60px 40px 60px;
+  display: inline-block; /* 추가: 모달 내부에서 인라인 요소로 표시 */
+  margin: 5px; /* 추가: 각 도시 테이블의 간격 조정 */
 }
 
 #TicketButton {
@@ -101,4 +153,35 @@ a {
   cursor: pointer;
   padding: 40px 60px 40px 60px;
   margin: 30px;
+}
+
+
+
+
+/*speechCtrl*/
+#speechCtrlContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#buttonContainer button {
+  margin: 0 10px; /* 10px 간격 추가 */
+  border: 2px solid #735d1a; /* 버튼 테두리 스타일 적용 */
+  background-color: white; /* 배경 색상을 흰색으로 설정 */
+  color: #735d1a; /* 글자 색상을 #735d1a로 설정 */
+  padding: 5px 10px; /* 버튼 내부 여백 설정 */
+  border-radius: 10px; /* 모서리를 10px만큼 둥글게 설정 */
+}
+
+
+#buttonContainer button:hover {
+  background-color: #735d1a; /* 호버 시 배경 색상 변경 */
+  color: white; /* 호버 시 글자 색상 변경 */
 }

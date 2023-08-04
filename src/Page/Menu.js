@@ -26,15 +26,15 @@ const Menu = () => {
 
   return (
     <div>
+      <p id='logo'>EZBT</p>
       <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
-
-      <div id="menu">
-        <div>
+      <div className="menu">
+        <div id='checkLink' >
           <Link to="/check" id="check-link">
             발권 확인
           </Link>
         </div>
-        <div>
+        <div id='ticketingLink'>
           <Link to="/ticketing" id="ticketing-link">
             현장 발권
           </Link>
@@ -44,4 +44,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Menu; 

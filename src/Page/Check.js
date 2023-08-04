@@ -22,7 +22,7 @@ const Check = ({ ticketInfo }) => {
   return (
     <div>
       <div>
-        <h4 style={{ textAlign: "center" }}>발권 확인</h4>
+        <h1 style={{ textAlign: "center" }}>발 권 확 인</h1>
       </div>
       <input
         type="text"
