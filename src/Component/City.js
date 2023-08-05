@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SpeechCtrl from '../Component/SpeechCtrl';
 
 const City = (props) => {
@@ -15,17 +15,23 @@ const City = (props) => {
   const handleTranscriptChange = (newTranscript) => {
     setTranscript(newTranscript);
 
-    // 선택된 도시 정보 처리
     const selectedCity = props.cityList.find((city) =>
-      newTranscript.includes(city.City)
+      city.City === newTranscript.replace(/\s/g, '') ||
+      city.City === newTranscript.replace(/\s/g, '') + '종합터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '시외버스터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '버스터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '고속버스터미널' ||
+      city.City === newTranscript.replace(/\s/g, '') + '동산정류소' ||
+      city.City === newTranscript.replace(/\s/g, '') + '복합터미널'
     );
+
     if (selectedCity) {
       handleCitySelection(selectedCity);
     }
   };
 
+  const [cityList] = useState(props.cityList);
 
-  const { cityList } = props;
   const tables = [];
   const tableCount = Math.ceil(cityList.length / 16);
 
@@ -47,9 +53,8 @@ const City = (props) => {
             key={j}
             id='CityTd'
             onClick={() => {
-              handleCitySelection(cities[cityIndex]);
-            }}
-          >
+              props.pN ? props.setStart(cities[cityIndex]) : props.setFinish(cities[cityIndex]);
+            }}>
             {cities[cityIndex].City}
           </td>
         );
@@ -66,11 +71,11 @@ const City = (props) => {
   }
 
   return (
-    <div>
+    <>
       <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
 
       <div className='CityTable'>{tables}</div>
-    </div>
+    </>
   );
 };
 

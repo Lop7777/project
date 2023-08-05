@@ -12,14 +12,16 @@ const Ticket = (props) => {
   const $modalStartFinish = useRef();
   const $modalTicketCount = useRef();
 
+
   useEffect(() => {
     $modalStartFinish.current = document.querySelector(".modal-start-finish");
     $modalTicketCount.current = document.querySelector(".modal-ticket-count");
   }, []);
 
+
   const commands = [
     {
-      command: ['출발지 선택'],
+      command: /출발지\s*선택/,
       callback: () => {
         setTimeout(() => {
           $modalStartFinish.current.style.display = "block";
@@ -29,7 +31,7 @@ const Ticket = (props) => {
       matchInterim: true,
     },
     {
-      command: ['도착지 선택'],
+      command: /도착지\s*선택/,
       callback: () => {
         setTimeout(() => {
           $modalStartFinish.current.style.display = "block";
@@ -39,7 +41,7 @@ const Ticket = (props) => {
       matchInterim: true,
     },
     {
-      command: ['발권 매수 선택'],
+      command: /발권\s*매수\s*선택/,
       callback: () => {
         setTimeout(() => {
           $modalTicketCount.current.style.display = "block";
@@ -64,7 +66,7 @@ const Ticket = (props) => {
       matchInterim: true,
     },
     {
-      command: ['삼', '세개'],
+      command: ['삼', '셋','세개'],
       callback: () => {
         setSpokenNumber('3');
         props.setTicketCount(3);
@@ -72,7 +74,7 @@ const Ticket = (props) => {
       matchInterim: true,
     },
     {
-      command: ['사', '네개'],
+      command: ['사', '넷','네개'],
       callback: () => {
         setSpokenNumber('4');
         props.setTicketCount(4);
@@ -80,7 +82,7 @@ const Ticket = (props) => {
       matchInterim: true,
     },
     {
-      command: ['오', '다섯개'],
+      command: ['오', '다섯','다섯개'],
       callback: () => {
         setSpokenNumber('5');
         props.setTicketCount(5);
@@ -94,19 +96,19 @@ const Ticket = (props) => {
   useEffect(() => {
     setTranscript(spokenTranscript);
 
-    if (spokenTranscript.includes('일') || spokenTranscript.includes('하나') || spokenTranscript.includes('한개')) {
+    if (/일|하나|한개/.test(spokenTranscript)) {
       setSpokenNumber('1');
       props.setTicketCount(1);
-    } else if (spokenTranscript.includes('이') || spokenTranscript.includes('둘') || spokenTranscript.includes('두개')) {
+    } else if (/이|둘|두개/.test(spokenTranscript)) {
       setSpokenNumber('2');
       props.setTicketCount(2);
-    } else if (spokenTranscript.includes('삼') || spokenTranscript.includes('셋') || spokenTranscript.includes('세개')) {
+    } else if (/삼|셋|세개/.test(spokenTranscript)) {
       setSpokenNumber('3');
       props.setTicketCount(3);
-    } else if (spokenTranscript.includes('사') || spokenTranscript.includes('넷') || spokenTranscript.includes('네개')) {
+    } else if (/사|넷|네개/.test(spokenTranscript)) {
       setSpokenNumber('4');
       props.setTicketCount(4);
-    } else if (spokenTranscript.includes('오') || spokenTranscript.includes('다섯') || spokenTranscript.includes('다섯개')) {
+    } else if (/오|다섯|다섯개/.test(spokenTranscript)) {
       setSpokenNumber('5');
       props.setTicketCount(5);
     }
@@ -116,19 +118,11 @@ const Ticket = (props) => {
     setTranscript(newTranscript);
   };
 
-  const handleSpokenNumberChange = (event) => {
-    const spokenValue = event.target.value;
-    const parsedValue = parseInt(spokenValue);
 
-    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 5) {
-      setSpokenNumber(spokenValue);
-      props.setTicketCount(parsedValue);
-    }
-  };
 
   const handleNext = (event) => {
-    if (!props.Start.id || !props.Finish.id || props.ticketCount === 0) {
-      alert("출발지, 도착지, 발권 매수를 선택해주세요.");
+    if (!props.Start.id || !props.Finish.id || props.ticketCount === 0 || props.Start.id === props.Finish.id) {
+      alert("출발지, 도착지, 발권 매수를 확인해주세요.");
       event.preventDefault();
     }
   };
@@ -138,7 +132,7 @@ const Ticket = (props) => {
       <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
       <Link to="/">홈버튼</Link>
 
-      <div style={{ paddingLeft: '30px' }}>출발 일자 및 도착지 선택</div>
+      <div style={{paddingLeft:'30px'}}>출발 일자 및 도착지 선택</div>
 
       <div id="TicketButton" onClick={() => { $modalStartFinish.current.style.display = "block"; setPN(true); }}>
         <div>출발지 선택</div>
@@ -161,7 +155,6 @@ const Ticket = (props) => {
 
       <Link to="/ticketing/Schedule" onClick={handleNext}>다음</Link>
 
-      {/* 출발지/도착지 선택 모달 */}
       <div className="modal modal-start-finish">
         <div className="modal_body">
           <button
@@ -186,7 +179,6 @@ const Ticket = (props) => {
         </div>
       </div>
 
-      {/* 발권 매수 선택 모달 */}
       <div className="modal modal-ticket-count">
         <div className="modal_body">
           <button
@@ -206,8 +198,14 @@ const Ticket = (props) => {
               min={0}
               max={5}
               value={spokenNumber}
-              onChange={handleSpokenNumberChange}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                props.setTicketCount(value); 
+                setSpokenNumber(value); 
+
+              }}
             />
+
           </div>
           <button
             onClick={() => {
