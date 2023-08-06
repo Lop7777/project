@@ -26,13 +26,18 @@ const Check = ({ TicketData }) => {
       <div>
         <h1 style={{ textAlign: "center" }}>발 권 확 인</h1>
       </div>
-      <input
-        type="text"
-        value={ticketNumber}
-        onChange={(e) => setTicketNumber(e.target.value)}
-      />
-      <button onClick={handleSearch}>검색</button>
+      <div id="searchBar">
+        <input
+          type="text"
+          id="tkCh"
+          placeholder="티켓 번호를 입력하세요."
+          value={ticketNumber}
+          onChange={(e) => setTicketNumber(e.target.value)}
+        />
+        <button id="tkChSh" onClick={handleSearch}>검색</button>
+      </div>
 
+      <div className="tkInfo">
       {validTicket && (
         <div>
           <h2>출발지: {findTicket.StartCity.City}</h2>
@@ -43,12 +48,7 @@ const Check = ({ TicketData }) => {
           <Link to="/">홈으로</Link>
         </div>
       )}
-
-      {!validTicket && (
-        <div>
-          <p>{"티켓 번호를 입력하세요."}</p>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

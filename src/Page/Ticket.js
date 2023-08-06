@@ -130,7 +130,7 @@ const Ticket = (props) => {
   return (
     <div>
       <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
-      <Link to="/">홈버튼</Link>
+      <Link to="/">처음으로</Link>
 
       <div style={{paddingLeft:'30px'}}>출발 일자 및 도착지 선택</div>
 
@@ -167,7 +167,7 @@ const Ticket = (props) => {
           </button>
 
           원하는 {pN ? "출발" : "도착"}지 선택
-          <div>
+          <div id="chooseCt">
             {pN ? props.Start.City : props.Finish.City}
           </div>
           <City
@@ -195,6 +195,7 @@ const Ticket = (props) => {
             <SpeechCtrl onTranscriptChange={handleTranscriptChange} />
             <input
               type="number"
+              id="NofT"
               min={0}
               max={5}
               value={spokenNumber}
@@ -204,9 +205,11 @@ const Ticket = (props) => {
                 setSpokenNumber(value); 
 
               }}
+              style={{ fontSize: '50px' }}
             />
 
           </div>
+          <div className="buttonContainer">
           <button
             onClick={() => {
               $modalTicketCount.current.style.display = "none";
@@ -214,6 +217,7 @@ const Ticket = (props) => {
           >
             선택
           </button>
+          </div>
         </div>
       </div>
     </div>

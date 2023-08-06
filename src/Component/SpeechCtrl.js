@@ -26,7 +26,7 @@ const SpeechCtrl = ({ onTranscriptChange }) => {
     <div>
       <div id="speechCtrlContainer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <p id='text'>마이크: {listening ? '마이크 켜짐' : '마이크 꺼짐'}</p>
-      <div id="buttonContainer" style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+      <div className="buttonContainer" style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
         <button onClick={handleStartListening}>Start</button>
         <button onClick={SpeechRecognition.stopListening}>Stop</button>
         <button onClick={resetTranscript}>Reset</button>

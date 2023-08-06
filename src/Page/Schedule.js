@@ -189,6 +189,7 @@ const Schedule = (props) => {
             </table>
           </div>
           <Link to={"/ticketing/Time"}>
+            <div className="buttonContainer">
             <button
               onClick={(e) => {
                 if (props.SeatNum.length < TICKETNUM) {
@@ -199,6 +200,7 @@ const Schedule = (props) => {
             >
               선택 완료
             </button>
+            </div>
           </Link>
         </div>
       </div>

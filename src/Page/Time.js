@@ -52,7 +52,7 @@ const Time = (props) => {
   useEffect( () => {
     setTable([]);
     table.push(
-      <div key={keyNum}>
+      <div id="tkInfoCh" key={keyNum}>
         {ticketInfo.map((element, index) =>
           <div key={index}> 티켓 번호 : {element.TicketID} / 출발지 : {element.StartCity.City} / 도착지 : {element.FinishCity.City} / 시간 : {element.TicketTime} 시 / 좌석 번호 : {element.SeatNum}</div>
         )}
@@ -65,17 +65,21 @@ const Time = (props) => {
 
   return (
     <div>
-      <div>출발지: {SCNAME ? SCNAME : "error"}</div>
-      <div>도착지: {FCNAME ? FCNAME : "error"}</div>
-      <div>발권 매수: {TICKETNUM}</div>
-      
+      <div className="tkInfo">
+        <span>출발지: {SCNAME ? SCNAME : "error"}</span>
+        <span>도착지: {FCNAME ? FCNAME : "error"}</span>
+        <span>발권 매수: {TICKETNUM}</span>
+      </div>
+
       {TicketList}
       
-      {showButton && (
-        <button onClick={handleSetTicketInfo}>정보가 맞다면 버튼을 눌러 티켓 번호를 확인하세요</button>
-      )}
+      <div className="buttonContainer">
+        {showButton && (
+          <button onClick={handleSetTicketInfo}>정보가 맞다면 버튼을 눌러 티켓 번호를 확인하세요</button>
+        )}
+      </div>
       <div>
-        <Link to="/">홈으로 이동</Link>
+        <p><Link to="/">홈으로 이동</Link></p>
       </div>
     </div>
   );
