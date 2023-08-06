@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+.App {
+  padding: 3%;
+  font-family: "Black Han Sans";
+}
+
+
+#logo {
+  margin: 0;
+  text-align: center; 
+  font-size: 60px; 
+  color: #fada59; 
+  border: 5px solid #fefbee; 
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+
+#text {
+  font-weight: bold;
+  color: #73471a;
+}
+
+#ipText {
+  width: 300px;
+  height: 30px;
+  text-align: center; 
+  font-weight: bold;
+  padding-top: 10px;
+  border-radius: 20px;
+  background-color: #fada59;
+}
+
+/* menu js*/
+.menu {
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+  margin-top: 2%;
+}
+
+#checkLink, #ticketingLink {
+  display: inline-block;
+  width: 500px;
+  height: 200px;
+  background-color: #fffbef;
+  border: 2px solid #E48586;
+  text-align: center;
+  line-height: 200px; /* 가운데 정렬을 위해 height값으로 설정 */
+  margin: 30px;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
+}
+
+#checkLink::before, #ticketingLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 100%;
+  background-color: #FFC6AC
+}
+
+#checkLink::after, #ticketingLink::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 100%;
+  background-color: #FFC6AC; 
+}
+
+
+
+
+a {
+  display: inline-block; 
+  text-decoration-line: none;
+  color: #a06f4a;
+  font-size: 35px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  /* margin-top: 2%; */
+}
+
+/*발권 확인*/
+
+#searchBar { /*부모 div*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+}
+
+#tkCh {
+  padding: 15px 150px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  margin-right: 10px;
+  margin-bottom: 2%;
+}
+
+
+#tkChSh {
+  padding: 15px 25px;
+  background-color: #fada59;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 2%;
+}
+
+
+#tkChSh:hover {
+  background-color:coral;
+}
+
+
+
+
+/*기타 글씨들*/
+#menu > div > a {
+  padding: 60px 50px 60px 50px;
+  border: 1px solid black;
+}
+
+a {
+  text-decoration-line: none;
+  color: black;
+}
+
+a:hover{
+  color: #E48586;
+}
+
+.modal {
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1000px;
+  height: 600px;
+  padding: 40px;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  transform: translateX(-50%) translateY(-50%); /* 수정된 translateY 값 */
+  overflow: auto; /* 모달 내용이 넘칠 경우 스크롤 생성 */
+}
+
+#close {
+  position: absolute; /* 모달 내부에 고정되도록 변경 */
+  right: 15px;
+  top: 15px;
+  color: none;
+  border-radius: 20px;
+  width: 35px;
+  height: 35px;
+  border: 1px solid black;
+}
+
+#chooseCt{
+  padding-top: 2%;
+  font-size:3vw;
+}
+
+.CityTable > table {
+  border-spacing: 20px;
+  margin: auto;
+}
+
+#CityTd {
+  border: 1px solid black;
+  width: 120px; /* Adjust the width to make it wider */
+  height: 20px;
+  padding: 20px 40px; /* Adjust the padding to create more space around the content */
+  display: inline-block;
+  margin: 5px;
+}
+
+#NofT{
+  width: 300px;
+  height: 50px;
+  text-align: center; 
+  font-weight: bold;
+  margin-top: 2%;
+  padding-top: 0px;
+  border-radius: 20px;
+  /* background-color: #fada59; */
+}
+
+#NofTBtn{
+  margin: 2%;
+}
+
+#TicketButton {
+  border: 1px solid black;
+  cursor: pointer;
+  padding: 40px 60px 40px 60px;
+  margin: 30px;
+}
+
+/*schedule*/
+#ScheduleList{
+  border: 1px solid black;
+  padding: 10px 40px 10px 40px;
+  margin: 10px 10px 10px 10px;
+}
+
+#SeatElement > tr > th, td {
+  border: 1px solid black;
+  padding: 10px 40px 10px 40px;
+  margin: 5px 10px 5px 10px;
+}
+
+#SeatTable {
+  margin-left:auto; 
+  margin-right:auto;
+  border-spacing: 5px;
+}
+
+
+/*speechCtrl*/
+#speechCtrlContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.buttonContainer button {
+  margin: 0 10px; /* 10px 간격 추가 */
+  border: 2px solid #735d1a; /* 버튼 테두리 스타일 적용 */
+  background-color: white; /* 배경 색상을 흰색으로 설정 */
+  color: #735d1a; /* 글자 색상을 #735d1a로 설정 */
+  padding: 5px 10px; /* 버튼 내부 여백 설정 */
+  border-radius: 10px; /* 모서리를 10px만큼 둥글게 설정 */
+}
+
+
+.buttonContainer button:hover {
+  background-color: #735d1a; /* 호버 시 배경 색상 변경 */
+  color: white; /* 호버 시 글자 색상 변경 */
+}
+
+
+
+.tkInfo {
+  width: 500px;
+  background-color: #fffbef;
+  border: 2px solid #E48586;
+  display: flex; 
+  flex-direction: column; 
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  padding: 5%;
+}
+
+
+.tkInfo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 100%;
+  background-color: #FFC6AC
+}
+
+.tkInfo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 100%;
+  background-color: #FFC6AC; 
+}
+
+.tkInfo span {
+  padding: 2%;
+  font-size: 1.5vw;
+}
+
+#tkInfoCh {
+  display: flex;
+  justify-content: center;
+  margin: 3%;
+  font-size: 1.3vw;
+  background-color:khaki;
+}
+
